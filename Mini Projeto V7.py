@@ -1,0 +1,387 @@
+import random, time
+
+print("Please input your name:")
+playerinput = input()
+command2 = input("Press [Enter] to continue.")
+print("-----")
+SwordAmount = 0
+GemAmount = 0
+HammerAmmount = 0
+BowAmmount = 0
+
+class player:
+    gold = 16
+    player_level = 0
+    self_xp = 0
+    Next_Level = 50
+    if self_xp >= 50:
+        self_xp = self_xp - Next_Level
+        player_level = player_level + 1
+        print("You Leveled up!\nYour new level is: " + str(player_level))
+    self_name = playerinput
+    def __init__(self, player_level, self_xp, player_gold, Next_Level):
+        self.xp = self_xp
+        self.level = player_level
+        self.name = playerinput
+        self.gold = player_gold
+        self.nextlevel = Next_Level
+    def display(self):
+        print("Name: " + self.name)
+        print("Level: " + str(self.level))
+        print("XP: " + str(self.xp))
+        print("Gold: " + str(self.gold))
+        print("XP needed for next level: " + str(self.nextlevel))
+
+class resources:
+    gold = 0
+    def __init__(self, Resources, gold, resource_amount):
+        self.resource = Resources
+        self.gold = gold
+        self.resourceamount = resource_amount
+    def display(self):
+        print("Resource: " + self.resource)
+        print("Sell Value: " + str(self.gold))
+        print("Resource Amount: " + str(self.resourceamount))
+        
+class Wood(resources):
+    def __init__(self):
+        super().__init__("Wood", 2, 0)
+    def display(self):
+        super().display()
+        print("Just a log.")
+    def canBuy(self):
+        if(player.gold >= 2):
+            return
+        return super().canBuy()
+        
+class Iron(resources):
+    def __init__(self):
+        super().__init__("Iron", 4, 0)
+    def display(self):
+        super().display()
+        print("Metal forged by the blacksmiths...but it's just an ore.")
+
+class Leather(resources):
+    def __init__(self):
+        super().__init__("Leather", 3, 0)
+    def display(self):
+        super().display()
+        print("The finest leather skinned from various animals with the help of hunters and butchers.")
+        
+
+class item:                 
+    gold = 1                    
+    def __init__(self, name, gold):
+        self.name = name
+        self.gold = gold
+    def canSell(self):
+        return (self.gold > 0)   
+    def display(self):
+        print("Item: " + self.name)
+        print("Sell Value " + str(self.gold))
+
+class sword(item):
+    damage = 0
+    def __init__(self, damage):
+        super().__init__("Sword", 1)
+        self.damage = damage
+        
+    def display(self):
+        super().display()
+        print("Damage " + str(self.damage))
+        print("A weapon fit for a warrior.")
+
+class gem(item):
+    def __init__(self):
+        super().__init__("Gem", 10)
+
+class Armor(item):                 
+    protection = 0
+    def __init__(self, protection, ArmorAmount):
+        super().__init__("Armor", 40)
+        self.protection = protection
+        self.ArmorAmount = ArmorAmount
+
+    def display(self):
+        super().display()
+        print("Protection " + str(self.protection))
+        print("Armor Amount: " + str(self.ArmorAmount))
+        print("Keeps a warrior alive in the heat of battle.")
+
+class bow(item):
+    def __init__(self, damage, accuracy):
+        super().__init__("Bow", 3)
+        self.damage = damage
+        self.accuracy = accuracy
+
+    def display(self):
+        super().display()
+        print("Damage" + str(self.damage))
+        print("Accuracy" + str(self.accuracy))
+        print("A hunters weapon.")
+
+class hammer(item):
+    def __init__(self, damage):
+       super().__init__("Hammer", 3)
+       self.damage = damage
+        
+    def display(self):
+        super().display()
+        print("Damage " + str(self.damage))
+        print("An unusual weapon.")
+
+class String(resources):
+    def __init__(self):
+        super().__init__("String", 1, 0)
+    def display(self):
+        super().display()
+        print("A bundle of strings.")
+
+class Chestplate(Armor):
+    def __init__(self):
+        super().__init__("Chestplate", 20)
+    def display(self):
+        super().display()
+        print("Chestplate")
+        
+class Helmet(Armor):
+    def __init__(self):
+        super().__init__("Helmet", 10)
+    def display(self):
+        super().display()
+        print("Chestplate")
+
+class Boots(Armor):
+    def __init__(self):
+        super().__init__("Boots", 10)
+    def display(self):
+        super().display()
+        print("Chestplate")
+        
+
+inventory = [sword(3), Chestplate(), Helmet(), Boots(), gem(), hammer(2), bow(3, 2), item("Trash", 2)]
+playerstats = [player(0, 0, 32, 50)]
+materials  = [Wood(), Leather(), Iron(), String()]
+
+command = ""
+while(command != "Quit" or "Exit"):
+    while(player.gold >= 0):  
+        time.sleep(0.5)
+        for player in playerstats:
+            player.display()
+            print("-----") 
+            
+        time.sleep(1)    
+        
+        for item in inventory:
+            item.display()
+            print("-----")
+            
+        time.sleep(2) 
+        
+        for resources in materials:
+            resources.display()
+            print("-----")
+            
+        time.sleep(3) 
+        
+        print("Press -1- to Sell Equipment")
+        print("Press -2- to Buy Resources")
+        print("Press -3- to Craft Equipment")
+        print("Type -Quit- to exit")
+        
+        #Sell    
+        PlayerChoice = input()
+        if PlayerChoice == "1":
+            print("Sell 1 -Sword- for 12 gold\nSell 1 -Armor- for up to 40 gold\nSell 1 -Gem- for 8 gold")
+            PlayerChoice2 = input()
+            if PlayerChoice2 == "Sword":
+                if SwordAmount >= 1:
+                    player.gold = player.gold + 12
+                    print("Processing...")
+                    time.sleep(0.5)
+                else:
+                    print("You don't have any swords.")      
+            elif PlayerChoice2 == "Armor":
+                print("-----\nSell 1 -Chestplate- for 20 gold\nSell 1 -Helmet-\nSell 1 -Boots-\n-----")
+                PlayerChoiceArmor = input()  
+                #Sell Chestplate 
+                if PlayerChoiceArmor == "Chestplate":
+                    if Armor.ArmorAmount(Chestplate) >= 1:
+                        player.gold = player.gold + 20
+                        Armor.ArmorAmount(Chestplate) == Armor.ArmorAmount(Chestplate) - 1
+                        print("Processing...")
+                        time.sleep(0.5)    
+                    else:
+                        print("You don't have any chestplates")
+                #Sell Helmet  
+                elif PlayerChoiceArmor == "Helmet":
+                    if Armor.ArmorAmount(Helmet) >= 1:
+                        player.gold = player.gold + 10
+                        Armor.ArmorAmount(Helmet) == Armor.ArmorAmount(Helmet) - 1
+                        print("Processing...")
+                        time.sleep(0.5) 
+                    else:
+                        print("You don't have any helmets")  
+                #Sell Boots
+                elif PlayerChoiceArmor == "Boots":
+                    if Armor.ArmorAmount(Boots) >= 1:
+                        player.gold = player.gold + 10
+                        Armor.ArmorAmount(Boots) == Armor.ArmorAmount(Boots) - 1
+                        print("Processing...")
+                        time.sleep(0.5)    
+                    else:
+                        print("You don't have any boots")       
+            elif PlayerChoice2 == "Gem":
+                if GemAmount >= 1:
+                    player.gold = player.gold + 8
+                    print("Processing...")
+                    time.sleep(0.5) 
+        #Buy                
+        if PlayerChoice == "2":
+            print("Buy 1 -Wood- for 2 gold.\nBuy 1 -Iron- for 4 gold.\nBuy 1 -Leather- for 3 gold.\nBuy 3 -String- for 1 gold.")
+            PlayerChoice3 = input()
+            #Buy Wood
+            if PlayerChoice3 == "Wood":
+                if player.gold >= 2:
+                    player.gold = player.gold - 2
+                    resources.resourceamount(Wood) + 1
+                    print("Processing payment...")
+                    time.sleep(1)      
+            #Buy Iron
+            elif PlayerChoice3 == "Iron":
+                if player.gold >= 4:
+                    player.gold = player.gold - 4
+                    resources.resourceamount(Iron) + 1
+                    print("Processing payment...")
+                    time.sleep(1)      
+            #Buy Leather
+            elif PlayerChoice3 == "Leather":
+                if player.gold >= 3:
+                    player.gold = player.gold - 3
+                    resources.resourceamount(Leather) + 1
+                    print("Processing payment...")
+                    time.sleep(1)   
+            #Buy String
+            elif PlayerChoice3 == "String":
+                if player.gold >= 3:
+                    player.gold = player.gold - 1
+                    resources.resourceamount(String) + 3
+                    print("Processing payment...")
+                    time.sleep(1)                
+        #Craft 
+        if PlayerChoice == "3":
+            print("Crafting a -Sword- = 1 Wood, 1 Iron.\nCrafting a -Hammer- = 2 Wood, 1 Iron\nCrafting a -Bow- = 2 Wood 1 String\nCrafting -Armor- = 2 leather 2 Iron.\nCrafting a -Gem- = 1 Iron.")
+            PlayerChoice4 = input()
+            #Craft Sword
+            if PlayerChoice4 == "Sword":
+                if  resources.resourceamount(Wood) >= 1:
+                    if  resources.resourceamount(Iron) >= 1:
+                        print("Forging...")
+                        player.self_xp = player.self_xp + 4
+                        resources.resourceamount(Wood) == resources.resourceamount(Wood) - 1
+                        resources.resourceamount(Iron) == resources.resourceamount(Iron) - 1
+                        time.sleep(0.5)
+                    else:
+                        print("Not enough Iron")
+                else:
+                    print("Not enough Wood")
+            #Craft Hammer
+            if PlayerChoice4 == "Hammer":
+                if resources.resourceamount(Wood) >= 2:
+                    if resources.resourceamount(Iron) >= 1:
+                        print("Forging...")
+                        player.self_xp = player.self_xp + 5
+                        resources.resourceamount(Wood) == resources.resourceamount(Wood) - 2
+                        resources.resourceamount(Iron) == resources.resourceamount(Iron) - 1
+                        HammerAmmount = HammerAmmount + 1
+                        time.sleep(0.5)
+                    else:
+                        print("Not enough Iron")
+                else:
+                    print("Not enough Wood")
+            #Craft Bow
+            if PlayerChoice4 == "Bow":
+                if resources.resourceamount(Wood) >= 2:
+                    if resources.resourceamount(String) >= 1:
+                        print("Forging...")
+                        player.self_xp = player.self_xp + 5
+                        resources.resourceamount(String) == resources.resourceamount(String) - 1
+                        resources.resourceamount(Wood) == resources.resourceamount(Wood) - 2
+                        BowAmmount = BowAmmount + 1
+                        time.sleep(0.5)
+                    else:
+                        print("Not enough String")
+                else:
+                    print("Not enough Wood")
+            #Craft Armor           
+            elif PlayerChoice4 == "Armor":
+                print("Craft -Armor- for 2 Iron and 2 Leather\nCraft -Chestplate- for 1 Iron and 1 leather\nCraft -Helmet- for 1 Iron\nCraft -Boots- for 1 Leather")
+                PlayerChoiceCraftArmor = input()
+                #Craft all 3 Armor Pieces
+                if PlayerChoiceCraftArmor == "Armor":
+                    if  resources.resourceamount(Iron, Leather) >= 2:
+                        Armor.ArmorAmount = Armor.ArmorAmount + 1
+                        print("Forging...")
+                        player.self_xp = player.self_xp + 20
+                        time.sleep(0.5)
+                    else:
+                        print("Not enough resources")
+                #Craft Chestplate
+                elif PlayerChoiceCraftArmor == "Chestplate":
+                    if  resources.resourceamount(Leather) >= 1:
+                        if  resources.resourceamount(Iron) >= 1:
+                            print("Forging...")
+                            player.self_xp = player.self_xp + 10
+                            resources.resourceamount(Leather) == resources.resourceamount(Leather) - 1
+                            resources.resourceamount(Iron) == resources.resourceamount(Iron) - 1
+                            Armor.ArmorAmount(Chestplate) == Armor.ArmorAmount(Chestplate) + 1
+                            time.sleep(0.5)
+                        else:
+                            print("Not enough Iron")
+                    else:
+                        print("Not enough Leather")  
+                #Craft Helmet 
+                elif PlayerChoiceCraftArmor == "Helmet":
+                    if  resources.resourceamount(Iron) >= 1:
+                        print("Forging...")
+                        player.self_xp = player.self_xp + 5
+                        resources.resourceamount(Iron) == resources.resourceamount(Iron) - 1
+                        Armor.ArmorAmount(Helmet) == Armor.ArmorAmount(Helmet) + 1
+                    else:
+                        print("Not enough Iron") 
+                #Craft Boots
+                elif PlayerChoiceCraftArmor == "Boots":
+                    if  resources.resourceamount(Boots) >= 1:
+                        print("Forging...")
+                        player.self_xp = player.self_xp + 5
+                        resources.resourceamount(Leather) == resources.resourceamount(Leather) - 1
+                        Armor.ArmorAmount(Boots) == Armor.ArmorAmount(Boots) + 1
+                    else:
+                        print("Not enough Leather") 
+                    
+                    
+            #Craft Gem       
+            elif PlayerChoice4 == "Gem":
+                if  resources.resourceamount(Iron) >= 1:
+                    print("Forging...")
+                    player.self_xp = player.self_xp + 1
+                    GemAmount + 1 
+                    time.sleep(0.5)     
+                else:
+                    print("Not enough resources")   
+        #Quit
+        if PlayerChoice == "Quit":
+            PlayerQuit = input("After pressing [Enter], type -Quit- to exit. Note: This process will remove all progress.\nIf you don't wish to quit then type anything else.") 
+            if input() == "Quit":
+                quit()
+            else:
+                break        
+         
+    else:
+        time.sleep(0.5)
+        print("Oh no...You went bankrupt...")
+        gameRestart = input("Press [enter] to restart game: ")
+        
+if player.gold == 1000:
+    print("You  won the game! :)")
