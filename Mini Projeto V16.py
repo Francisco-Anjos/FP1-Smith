@@ -287,7 +287,7 @@ while(command != "Quit" or "Exit"):
             PlayerChoice2 = input()
             if PlayerChoice2 == "Sword":
                 if SwordAmount >= 1:
-                    player.gold += 12
+                    player.gold += 12 * player.player_level
                     print("Processing...")
                     SwordAmount -= 1
                     time.sleep(0.5)
@@ -295,35 +295,35 @@ while(command != "Quit" or "Exit"):
                     print("You don't have any swords.")     
             if PlayerChoice2 == "Hammer":
                 if HammerAmmount >=1:
-                    player.gold +=10
+                    player.gold +=10 * player.player_level
                     HammerAmmount -= 1
                     print("Processing...")
                 else:
                     print("You don't have any hammers.")
             if PlayerChoice2 == "Bow":
                 if BowAmmount >=1:
-                    player.gold +=14
+                    player.gold +=14 * player.player_level
                     BowAmmount -= 1
                     print("Processing...")
                 else:
                     print("You don't have any bows.")      
             if PlayerChoice2 == "WSword":
                 if WSwordAmmount >=1:
-                    player.gold +=18
+                    player.gold +=18 * player.player_level
                     WSwordAmmount -= 1
                     print("Processing...")
                 else:
                     print("You don't have any WorthySwords.")       
             if PlayerChoice2 == "BHammer":
                 if BHammerAmmount >=1:
-                    player.gold +=15
+                    player.gold +=15 * player.player_level
                     BHammerAmmount -= 1
                     print("Processing...")
                 else:
                     print("You don't have any BrawlerHammers.")
             if PlayerChoice2 == "SBow":
                 if SBowAmmount >=1:
-                    player.gold +=10
+                    player.gold +=15 * player.player_level
                     SBowAmmount -= 1
                     print("Processing...")
                 else:
@@ -334,7 +334,7 @@ while(command != "Quit" or "Exit"):
                     #Sell Chestplate 
                     if PlayerChoiceArmor == "Chestplate":
                         if inventory[0].ArmorAmount >= 1:
-                            player.gold += 20
+                            player.gold += 20 * player.player_level
                             inventory[0].ArmorAmount -= 1
                             print("Processing...")
                             time.sleep(0.5)    
@@ -343,7 +343,7 @@ while(command != "Quit" or "Exit"):
                     #Sell Bronze Chestplate 
                     elif PlayerChoiceArmor == "BronzeChestplate":
                         if inventory[8].ArmorAmount >= 1:
-                            player.gold += 15
+                            player.gold += 15 * player.player_level
                             inventory[8].ArmorAmount -= 1
                             print("Processing...")
                             time.sleep(0.5)    
@@ -352,7 +352,7 @@ while(command != "Quit" or "Exit"):
                     #Sell Helmet  
                     elif PlayerChoiceArmor == "Helmet":
                         if inventory[1].ArmorAmount >= 1:
-                            player.gold += 10
+                            player.gold += 10 * player.player_level
                             inventory[1].ArmorAmount -= 1
                             print("Processing...")
                             time.sleep(0.5) 
@@ -361,7 +361,7 @@ while(command != "Quit" or "Exit"):
                     #Sell Bronze Helmet  
                     elif PlayerChoiceArmor == "BronzeHelmet":
                         if inventory[9].ArmorAmount >= 1:
-                            player.gold += 8
+                            player.gold += 8 * player.player_level
                             inventory[9].ArmorAmount -= 1
                             print("Processing...")
                             time.sleep(0.5) 
@@ -370,7 +370,7 @@ while(command != "Quit" or "Exit"):
                     #Sell Boots
                     elif PlayerChoiceArmor == "Boots":
                         if inventory[2].ArmorAmount >= 1:
-                            player.gold += 10
+                            player.gold += 10 * player.player_level
                             inventory[2].ArmorAmount -= 1
                             print("Processing...")
                             time.sleep(0.5)    
@@ -378,13 +378,13 @@ while(command != "Quit" or "Exit"):
                             print("You don't have any Boots")       
         elif PlayerChoice2 == "Gem":
                     if inventory[3].ArmorAmount >= 1:
-                        player.gold += 8
-                        inventory[3].ArmorAmount -1
+                        player.gold += 8 * player.player_level
+                        inventory[3].ArmorAmount -=1
                         print("Processing...")
                         time.sleep(0.5) 
         elif PlayerChoice2 == "BronzeGem":
                     if inventory[11].ArmorAmount >= 1:
-                        player.gold += 8
+                        player.gold += 8 * player.player_level
                         inventory[11].ArmorAmount -= 1
                         print("Processing...")
                         time.sleep(0.5) 
@@ -442,6 +442,7 @@ while(command != "Quit" or "Exit"):
                         player.self_xp += 4
                         materials[0].resourceamount -= 1
                         materials[1].resourceamount -= 1
+                        SwordAmount = SwordAmount +1
                         time.sleep(0.5)
                     else:
                         print("Not enough Iron")
@@ -458,6 +459,7 @@ while(command != "Quit" or "Exit"):
                                 materials[0].resourceamount -= 2
                                 materials[1].resourceamount -= 2
                                 materials[2].resourceamount -= 2
+                                WSwordAmmount = WSwordAmmount + 1
                                 time.sleep(0.5)
                             else:
                                 print("Not enough Leather")
@@ -493,7 +495,7 @@ while(command != "Quit" or "Exit"):
                                 materials[0].resourceamount -= 2
                                 materials[1].resourceamount -= 1
                                 materials[2].resourceamount -= 2
-                                HammerAmmount = HammerAmmount + 1
+                                BHammerAmmount = BHammerAmmount + 1
                                 time.sleep(0.5)
                             else:
                                 print("Not enough Leather")
@@ -528,7 +530,7 @@ while(command != "Quit" or "Exit"):
                                 materials[3].resourceamount -= 6
                                 materials[0].resourceamount -= 2
                                 materials[2].resourceamount -= 1
-                                BowAmmount = BowAmmount + 1
+                                SBowAmmount = SBowAmmount + 1
                                 time.sleep(0.5)
                             else:
                                 print("Not enought Leather")
@@ -650,5 +652,5 @@ while(command != "Quit" or "Exit"):
         print("Oh no...You went bankrupt...")
         gameRestart = input("Press [enter] to restart game: ")
         
-if player.gold == 1000:
+if player.gold == 10000:
     print("You  won the game! :)")
